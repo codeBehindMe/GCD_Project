@@ -1,2 +1,2 @@
-# GCD_Project
-Get and Clean Data Course Project Repository.
+# Getting and Cleaning Data
+## Course Project
