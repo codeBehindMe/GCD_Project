@@ -1,5 +1,5 @@
 Number Variable Description Notes
----| ----| ----| ----
+------ | -------- | ----------- | -----
 NA Subject Subject who carried out the test (number) N/A
 NA Activity Type of activity carried out N/A
 NA tBodyAcc_mean___X Time domain Body Acceleration (g:9.80665 m/sec2) mean  X Direction  See feature_info.txt for DSP information
