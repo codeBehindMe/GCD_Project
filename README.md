@@ -27,3 +27,23 @@ This script is generated to meet the requirements set out by the Course project.
 4. Appropriately labels the data set with descriptive variable names.
 5. Generates a second independant tidy data set with the average of each variable for each activity and each subject
 
+The code within run_analysis.R is annotated and should be used in reference with this Readme file. 
+#### Aim
+The orignial data set from UCI-HAR is separated into training and test data sets (see readme of the original data set for more information). For each of the sets the Activity carried out and the subject who carried it out is separated out into individual files. All files are of .txt format with tables. The variable names are also separated into a different file (also of .txt format table). 
+The aim is to connect these files together into a one data set with descriptive variable names (column names), subject names and activity names; then group this frame by subject and activity with the mean value for each variable. 
+
+#### Method
+To help manipulate this set will use the dplyr package (http://cran.r-project.org/web/packages/dplyr/index.html).
+
+1. Get the features that have been measured (variables - column names of data set) from the features.txt file.
+2. Get the activity labels describing each activity number ( 1 - STANDING) from activity_labels.txt (see UCI-HAR readme).
+3. Legalise names of the features.txt names. There are column names which contain reserved characters in R, these must be filtered out. Any illigal character is replaced with an underscore. 
+4. Prior to merging the data sets, carry out subject attachment, activity attachment and descriptive variable naming for training and test data sets. To do this, we load the X_ text file which contains the values (See readme of UCI-HAR set), load the y_ (See readme of UCI-HAR set) file which contains the corresponding activity number for the values in each row, load the subject_ file (See readme of UCI-HAR set).
+5. Join the descriptive names in activity_labels.txt to the y_ text file to give descriptive activity names to each row in X_.
+6. Now bind the values of features.txt to the column names of the X_ dataframe. Now the X_ frame will have descriptive column names.
+7. Attach the descriptive activity names as as gotton in step 6 to the X_ dataframe and name the column Activity.
+8. Attach the subjects to the X_ dataframe and name the column Subject. Now we should have a data frame with the subject column showing which subject, the Activity column showing what type of activity the subject carried out and the remaining columns with values for the result of each variable.
+9. Steps 4 - 8 are contained in a function and this function is called on the test and training data sets respectively. Now we simply join the two data frames to get a complete set.
+10. The original data set has a few duplicate column names and this causes dplyr to throw exceptions, so we remove the duplicate column names.
+11. since we are interested in all features that have mean or standard deviation we pull out anything that is denoted as a mean or std. Note: FFTs and other frequency based features are deemed INCLUSIVE of requirement 2. This should return a 79 Variable + Subject and Activity column df.
+12. 
