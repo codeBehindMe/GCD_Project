@@ -32,7 +32,9 @@ The code within run_analysis.R is annotated and should be used in reference with
 The orignial data set from UCI-HAR is separated into training and test data sets (see readme of the original data set for more information). For each of the sets, the Activity carried out and the subject who carried it out is separated out into individual files. All files are of .txt format with tables. The variable names are also separated into a different file (also of .txt format table). Column names (features) are also separated 
 The aim is to connect these data sets (files) together into a one data set with descriptive variable names (column names), subject names and activity names; then group this frame by subject and activity with the mean value for each variable. 
 
-Furthermore, the assignment is interested in variables that measure mean and standard deviations from the digital signal processing (DSP) data, so we will only recover where the feature name (variable) has a mean or a standard deviation (std).
+##### Furthermore, the assignment is interested in variables that measure mean and standard deviations from the digital signal processing (DSP) data, so we will only recover where the feature name (variable) has a mean or a standard deviation (std) sign in it. 
+
+So our result should be the mean values for each feature for each subject over the 6 activites. Result should be the following { 30 subjects x 6 activities by 79 features (and columns for subject and activity) } 
 
 #### Method
 To help manipulate this set will use the dplyr package (http://cran.r-project.org/web/packages/dplyr/index.html).
@@ -60,3 +62,6 @@ To help manipulate this set will use the dplyr package (http://cran.r-project.or
 
 #### tidydata.txt
 This file contains the cleaned data set. The data set has 81 columns and 180 rows (observations)
+#### CodeBook.md
+This file contains the different variable names and a more detailed description of those names.
+##### The feature_info.txt should be consulted for further understanding on the variables.
