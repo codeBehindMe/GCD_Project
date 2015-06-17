@@ -1,3 +1,4 @@
+"Number" "Variable" "Description" "Notes"
 "---|" "----|" "----|" "----"
 NA "Subject" "Subject who carried out the test (number)" "N/A"
 NA "Activity" "Type of activity carried out" "N/A"
