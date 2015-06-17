@@ -29,8 +29,10 @@ This script is generated to meet the requirements set out by the Course project.
 
 The code within run_analysis.R is annotated and should be used in reference with this Readme file. 
 #### Aim
-The orignial data set from UCI-HAR is separated into training and test data sets (see readme of the original data set for more information). For each of the sets the Activity carried out and the subject who carried it out is separated out into individual files. All files are of .txt format with tables. The variable names are also separated into a different file (also of .txt format table). 
-The aim is to connect these files together into a one data set with descriptive variable names (column names), subject names and activity names; then group this frame by subject and activity with the mean value for each variable. 
+The orignial data set from UCI-HAR is separated into training and test data sets (see readme of the original data set for more information). For each of the sets, the Activity carried out and the subject who carried it out is separated out into individual files. All files are of .txt format with tables. The variable names are also separated into a different file (also of .txt format table). Column names (features) are also separated 
+The aim is to connect these data sets (files) together into a one data set with descriptive variable names (column names), subject names and activity names; then group this frame by subject and activity with the mean value for each variable. 
+
+Furthermore, the assignment is interested in variables that measure mean and standard deviations from the digital signal processing (DSP) data, so we will only recover where the feature name (variable) has a mean or a standard deviation (std).
 
 #### Method
 To help manipulate this set will use the dplyr package (http://cran.r-project.org/web/packages/dplyr/index.html).
@@ -54,4 +56,7 @@ To help manipulate this set will use the dplyr package (http://cran.r-project.or
 17. Clean up and remove any temporary variables (used to store dataframes and vectors)
 18. Notify the user of successfull completion.
 
+##### Ensure to take a look at the annotations on the code, which provide line level descriptions. 
 
+#### tidydata.txt
+This file contains the cleaned data set. The data set has 81 columns and 180 rows (observations)
