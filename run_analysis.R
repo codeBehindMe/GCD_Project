@@ -174,3 +174,5 @@ remove(df_actLabels,df_all,df_features,df_summ,changeDir,getMergedFrame,makeCode
 print("script run_analysis.R has successfully completed")
 print(c("Cleaned data successfully written to tidydata.txt at ", getwd()))
 print(c("Codebook has been successfully written to CodeBook.md at ", getwd()))
+
+#END
