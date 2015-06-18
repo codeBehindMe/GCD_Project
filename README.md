@@ -65,6 +65,9 @@ To help manipulate this set will use the dplyr package (http://cran.r-project.or
 
 #### tidydata.txt
 This file contains the cleaned data set. The data set has 81 columns and 180 rows (observations)
+First column contains the subject numbers (non unique)
+Second column contains the activity which the performed.
+Subsequent column contains the average values of each of the features that were selected from the digital signal processing.
 #### CodeBook.md
 This file contains the different variable names and a more detailed description of those names.
 ##### CodeBook.md does not contain details on the digital signal processing methods used for features. The feature_info.txt should be consulted for further understanding on the variables.
