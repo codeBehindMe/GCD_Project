@@ -11,11 +11,13 @@ require(dplyr)
 
 # there are 3 working directories {UCI HAR; Train; Test;}
 # we will use this function to navigate through to each of the directories
+# the folder structure is assumed to have the UCI HAR Dataset folder in the working directory
+w.Dir <- getwd()
 changeDir <- function(x="main"){
       
       if(x== "train") {
             
-            setwd("~/Data Science/GetCleanData/UCI HAR Dataset")
+            setwd(paste(w.Dir,"/UCI HAR Dataset",sep=""))
             setwd("train")
             getwd()
             }
@@ -23,13 +25,13 @@ changeDir <- function(x="main"){
             
                   if(x == "test") {
                   
-                        setwd("~/Data Science/GetCleanData/UCI HAR Dataset")
+                        setwd(paste(w.Dir,"/UCI HAR Dataset",sep=""))
                         setwd("test")
                         getwd()
             }
             else {
                   # we wont add a if statement here since this function is called from within the script
-                  setwd("~/Data Science/GetCleanData/UCI HAR Dataset")
+                  setwd(paste(w.Dir,"/UCI HAR Dataset",sep=""))
                   getwd()
                   
             }
@@ -166,13 +168,15 @@ colnames(df_cNames)[1] <- "Number" #name the column
 
 write.table(df_cNames,file="CodeBook.md",row.name=F,col.names=T,quote=F, sep="|") #write to the codebook
 
-
+#change working dir back
+setwd(w.Dir)
 # remove temporary variables
-remove(df_actLabels,df_all,df_features,df_summ,changeDir,getMergedFrame,makeCodeTable,prepFeatures,df_cNames)
+remove(df_actLabels,df_all,df_features,df_summ,changeDir,getMergedFrame,makeCodeTable,prepFeatures,df_cNames,w.Dir)
 
 #let's notify the use that the code has sucessfully executed!
 print("script run_analysis.R has successfully completed")
 print(c("Cleaned data successfully written to tidydata.txt at ", getwd()))
 print(c("Codebook has been successfully written to CodeBook.md at ", getwd()))
+
 
 #END
