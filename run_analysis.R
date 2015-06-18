@@ -2,7 +2,7 @@
 # course Getting and Cleaning Data (Data Science Sepcialization)
 
 # you can find more about the UCI HAR Dataset by going to the following location
-
+# http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 #BEGIN
 
 #we will require dplyr package to run this script
@@ -168,7 +168,7 @@ write.table(df_cNames,file="CodeBook.md",row.name=F,col.names=T,quote=F, sep="|"
 
 
 # remove temporary variables
-#remove(df_actLabels,df_all,df_features,df_summ,changeDir,getMergedFrame,makeCodeTable,prepFeatures,df_cNames)
+remove(df_actLabels,df_all,df_features,df_summ,changeDir,getMergedFrame,makeCodeTable,prepFeatures,df_cNames)
 
 #let's notify the use that the code has sucessfully executed!
 print("script run_analysis.R has successfully completed")
