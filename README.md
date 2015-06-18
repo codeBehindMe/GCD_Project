@@ -11,9 +11,9 @@ The data set is :
 
 You may find the dataset at :http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 
-It is strongly recommended that you read the Readme.txt found with the original dataset prior to utilizing run_analysis.R
+It is strongly recommended that you read the Readme.txt found with the Human Activity Recognition dataset prior to utilizing run_analysis.R
 
-There are three component's to the script;
+There are three component's to the readme;
 1. The script itself (what it does)
 2. tidydata.txt file
 3. codebook.md file
@@ -25,38 +25,41 @@ This script is generated to meet the requirements set out by the Course project.
 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 3. Uses descriptive activity names to name the activities
 4. Appropriately labels the data set with descriptive variable names.
-5. Generates a second independant tidy data set with the average of each variable for each activity and each subject
+5. Generates a second independent tidy data set with the average of each variable for each activity and each subject
 
 The code within run_analysis.R is annotated and should be used in reference with this Readme file. 
 #### Aim
-The orignial data set from UCI-HAR is separated into training and test data sets (see readme of the original data set for more information). For each of the sets, the Activity carried out and the subject who carried it out is separated out into individual files. All files are of .txt format with tables. The variable names are also separated into a different file (also of .txt format table). Column names (features) are also separated 
+The original data set from UCI-HAR is separated into training and test data sets (see readme of the original data set for more information). For each of the sets, the Activity carried out and the subject who carried it out is separated out into individual files. All files are of .txt format with tables. The variable names are also separated into a different file (also of .txt format table). Column names (features) are also separated in a different file.
+
 The aim is to connect these data sets (files) together into a one data set with descriptive variable names (column names), subject names and activity names; then group this frame by subject and activity with the mean value for each variable. 
 
 ##### Furthermore, the assignment is interested in variables that measure mean and standard deviations from the digital signal processing (DSP) data, so we will only recover where the feature name (variable) has a mean or a standard deviation (std) sign in it. 
 
-So our result should be the mean values for each feature for each subject over the 6 activites. Result should be the following { 30 subjects x 6 activities by 79 features (and columns for subject and activity) } 
+Therefore the result should be the average values for each feature for each subject over the 6 activities. Result should be the following { 30 subjects x 6 activities by 79 features (and columns for subject and activity) } 
 
 #### Method
 To help manipulate this set will use the dplyr package (http://cran.r-project.org/web/packages/dplyr/index.html).
 
-1. Get the features that have been measured (variables - column names of data set) from the features.txt file.
-2. Get the activity labels describing each activity number ( 1 - STANDING) from activity_labels.txt (see UCI-HAR readme).
-3. Legalise names of the features.txt names. There are column names which contain reserved characters in R, these must be filtered out. Any illigal character is replaced with an underscore. 
-4. Prior to merging the data sets, carry out subject attachment, activity attachment and descriptive variable naming for training and test data sets. To do this, we load the X_ text file which contains the values (See readme of UCI-HAR set), load the y_ (See readme of UCI-HAR set) file which contains the corresponding activity number for the values in each row, load the subject_ file (See readme of UCI-HAR set).
-5. Join the descriptive names in activity_labels.txt to the y_ text file to give descriptive activity names to each row in X_.
-6. Now bind the values of features.txt to the column names of the X_ dataframe. Now the X_ frame will have descriptive column names.
-7. Attach the descriptive activity names as as gotton in step 6 to the X_ dataframe and name the column Activity.
-8. Attach the subjects to the X_ dataframe and name the column Subject. Now we should have a data frame with the subject column showing which subject, the Activity column showing what type of activity the subject carried out and the remaining columns with values for the result of each variable.
-9. Steps 4 - 8 are contained in a function and this function is called on the test and training data sets respectively. Now we simply join the two data frames to get a complete set with 10,299 rows.
-10. The original data set has a few duplicate column names and this causes dplyr to throw exceptions, so we remove the duplicate column names.
-11. since we are interested in all features that have mean or standard deviation we pull out anything that is denoted as a mean or std. Note: FFTs and other frequency based features from DSP are deemed INCLUSIVE of requirement 2. This should return a 79 Variables + Subject and Activity columns in the dataframe.
-12. Then group the variables by Subject and Activity so we can pull out the means for each subject and each activity.
-13. Summarise the groups with the mean function as required. This will return a 180 row data frame with 81 variables (including Activity and Subject). 30 x Subjects with 6 x activities with the means for 79 measured features. 
-14. Write the data frame to a file (tidydata.txt) using data.table(,row.names=F) as required by the assignement
-15. Make a table of Variables and their descriptions for the tidydata.txt
-16. Write the this table to CodeBook.md
-17. Clean up and remove any temporary variables (used to store dataframes and vectors)
-18. Notify the user of successfull completion.
+##### Assumed folder structure is  working directory / UCI HAR Dataset
+
+1. A utility function is required to navigate between the different directories of test and training. A function named changeDir is used in this script.
+2. Get the descriptive activity labels from activity_labels.txt. This will be used to descriptive activities for each row of the data. Stored in variable df_actLabels
+3. Get the feature names from features.txt. This file contains the column names for the data sets. Stored in variable df_features
+4. Since the feature names contain escape sequence characters (such as parenthesis) remove or replace them. A function called prepFeatures is called to convert any illegal characters to underscores and is used to modify df_features.
+5. Prior to merging the two data sets we assign subjects, descriptive activity names and feature names (column names). A function called getMergedFrame is used to carry out these steps. getMergedFrame will read X_ file, y_ file and the subject_ file, then assign a new column to y_ with the matching descriptive activity name. Then bind the descriptive activity name to the X_. then bind the subject to the X_ set. It will also rename the new columns appropriately to Subject and Activity
+6. Once we called getMergedFrame on the test and training data, they are merged using rbind. This is now stored in df_all while the individual data frames for training and test are removed.
+7. Next any duplicate columns are removed
+8. Since we are only interested in mean and standard deviation DSP data, we extract those columns. 
+9. Now we group the data frame by subject and activity.
+10. Then we summarise the data in a table by taking all the means. This is stored in df_summ
+11. Write  the output table to tidyData.txt
+12. Next make a code table containing all the column names and their descriptions. This is done using makeCodeTable function. The function essentially calls gsub on key words to replace them with a more descriptive sentence.
+13. Prepare the code table for gitHub by adding dash and pipe symbols.
+14. Write the codebook to CodeBook.md
+15. Set the working directory back to what it was at the start using changeDir
+16. Remove temporary variables and print to the console alerting the user the script has run successfully. 
+
+
 
 ##### Ensure to take a look at the annotations on the code, which provide line level descriptions. 
 
@@ -64,4 +67,4 @@ To help manipulate this set will use the dplyr package (http://cran.r-project.or
 This file contains the cleaned data set. The data set has 81 columns and 180 rows (observations)
 #### CodeBook.md
 This file contains the different variable names and a more detailed description of those names.
-##### The feature_info.txt should be consulted for further understanding on the variables.
+##### CodeBook.md does not contain details on the digital signal processing methods used for features. The feature_info.txt should be consulted for further understanding on the variables.
