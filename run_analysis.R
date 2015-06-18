@@ -38,8 +38,8 @@ changeDir <- function(x="main"){
 
 # we need to get the features and activity_labels so we can map them onto our data
 changeDir("main")
-df_features <- as.data.frame(read.table("features.txt"))
-df_actLabels <- as.data.frame(read.table("activity_labels.txt"))
+df_features <- as.data.frame(read.table("features.txt"),StringsAsFactors=F)
+df_actLabels <- as.data.frame(read.table("activity_labels.txt"),StringsAsFactors=F)
       
 # given the size of the datasets we will sequentially manipulate the test and train data
 # we will do this in a number of steps
@@ -49,12 +49,12 @@ df_actLabels <- as.data.frame(read.table("activity_labels.txt"))
 prepFeatures <- function(){
       # this function will remove the dash, comma and parenthesis from the df_features and return 
       # a data frame with the cleaned data
-      feat <- as.data.frame(df_features[,2])
+      feat <- as.data.frame(df_features[,2],StringsAsFactors=F)
       
       v_featRem <- c("\\(","\\)","\\,","-")
       for(i in 1:length(v_featRem)){
             
-            feat <- as.data.frame(gsub(v_featRem[i],"_",feat[,1]))
+            feat <- as.data.frame(gsub(v_featRem[i],"_",feat[,1]),StringsAsFactors=F)
       }
       
       feat
@@ -72,9 +72,9 @@ getMergedFrame <- function(dir) {
       #set the working directory
       changeDir(dir)
       
-      df_x <- as.data.frame(read.table(paste("X_",dir,".txt",sep="")))           # values frame                 
-      df_y <- as.data.frame(read.table(paste("y_",dir,".txt",sep="")))           # labels frame
-      df_s <- as.data.frame(read.table(paste("subject_",dir,".txt",sep="")))     # subject frame
+      df_x <- as.data.frame(read.table(paste("X_",dir,".txt",sep="")),StringsAsFactors=F)           # values frame                 
+      df_y <- as.data.frame(read.table(paste("y_",dir,".txt",sep="")),StringsAsFactors=F)           # labels frame
+      df_s <- as.data.frame(read.table(paste("subject_",dir,".txt",sep="")),StringsAsFactors=F)     # subject frame
       
       #make a df with the activity labels attached to the df_y frame
       df_y <- left_join(x=df_y,y=df_actLabels,by="V1")
@@ -121,11 +121,11 @@ df_summ <- summarise_each(df_all,funs(mean))
 
 #write a file to the main directory
 changeDir("main")
-write.table(df_summ,file="tidyData.txt",row.name=FALSE)
+write.table(df_summ,file="tidyData.txt",row.name=F)
 
 #create the codebook for the variables
 
-df_cNames <- as.data.frame(colnames(df_summ),StringsAsFactors=FALSE) #get the column names of our final data frame
+df_cNames <- as.data.frame(colnames(df_summ),StringsAsFactors=F) #get the column names of our final data frame
 
 makeCodeTable <- function(df=df_cNames){ #we will use a function here; although there is not much gain by doing this
       
@@ -133,35 +133,42 @@ makeCodeTable <- function(df=df_cNames){ #we will use a function here; although 
       for (i in 1:length(repl)){    #note the "_" and "  " (double space) is added just to clean up 
        # basically any description here is made by looking at the feature_info.txt manbually.
             switch(i,
-                  df <- as.data.frame(gsub(repl[i],"Time domain ",as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i],"Fast Fourier Transform ",as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," Acceleration (g:9.80665 m/sec2) ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," Standard Deviation ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," X Direction ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," Y Direction ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," Z Direction ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," Mean Frequency ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," Magnitude ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," Gyroscope (rad/sec) ",as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i]," ", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i],"Subject who carried out the test (number)", as.vector(df[,1]))),
-                  df <- as.data.frame(gsub(repl[i],"Type of activity carried out", as.vector(df[,1]))),
+                  df <- as.data.frame(gsub(repl[i],"Time domain ",as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i],"Fast Fourier Transform ",as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," Acceleration (g:9.80665 m/sec2) ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," Standard Deviation ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," X Direction ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," Y Direction ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," Z Direction ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," Mean Frequency ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," Magnitude ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," Gyroscope (rad/sec) ",as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i]," ", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i],"Subject who carried out the test (number)", as.vector(df[,1])),StringsAsFactors=F),
+                  df <- as.data.frame(gsub(repl[i],"Type of activity carried out", as.vector(df[,1])),StringsAsFactors=F),
                   )
       }
       #return the df
       df
       
 }
-df_cNames <- cbind(df_cNames,makeCodeTable()) #now we bind the descriptions on to the df_cNames which is what will be written to file
+#now we bind the descriptions on to the df_cNames which is what will be written to file
+df_cNames <- cbind(df_cNames,makeCodeTable(),c(rep("N/A",2),rep("See feature_info.txt for DSP information",nrow(df_cNames)-2))) 
 
-colnames(df_cNames)[1:2] <- c("Variable", "Description") # name the columns
+colnames(df_cNames)[1:3] <- c("Variable","Description","Notes") # name the columns
 
-write.table(df_cNames,file="CodeBook.md",row.name=F) #write to the codebook
+df_cNames <- rbind(data.frame(Variable = "--------",Description = "-----------", Notes = "-----"),df_cNames) #github table maker
+
+df_cNames <- cbind(c("------",1:81),df_cNames) #bind the numbers
+
+colnames(df_cNames)[1] <- "Number" #name the column
+
+write.table(df_cNames,file="CodeBook.md",row.name=F,col.names=T,quote=F, sep="|") #write to the codebook
 
 
 # remove temporary variables
-remove(df_actLabels,df_all,df_features,df_summ,changeDir,getMergedFrame,makeCodeTable,prepFeatures,df_cNames)
+#remove(df_actLabels,df_all,df_features,df_summ,changeDir,getMergedFrame,makeCodeTable,prepFeatures,df_cNames)
 
 #let's notify the use that the code has sucessfully executed!
 print("script run_analysis.R has successfully completed")
