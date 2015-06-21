@@ -81,7 +81,7 @@ getMergedFrame <- function(dir) {
       #make a df with the activity labels attached to the df_y frame
       df_y <- left_join(x=df_y,y=df_actLabels,by="V1")
       
-      #set the items of df_featers to the column names of the df_x
+      #set the items of df_features to the column names of the df_x
       colnames(df_x) <- df_features[,1]
       
       #merge the activities into the df_x
